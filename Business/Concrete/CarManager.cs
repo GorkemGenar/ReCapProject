@@ -9,7 +9,6 @@ namespace Business.Concrete
 {
     public class CarManager : ICarService
     {
-
         ICarDal _carDal;
 
         public CarManager(ICarDal carDal)
@@ -19,12 +18,32 @@ namespace Business.Concrete
 
         public void Add(Car car)
         {
+            _carDal.Add(car);
+        }
+
+        public void AnyTest(int year)
+        {
+            _carDal.AnyTest(year);
+        }
+
+        public void ClassicLinqTest()
+        {
             throw new NotImplementedException();
         }
 
         public void Delete(Car car)
         {
-            throw new NotImplementedException();
+            _carDal.Delete(car);
+        }
+
+        public void FindAllTest(string name)
+        {
+            _carDal.FindAllTest(name);
+        }
+
+        public void FindTest(int year)
+        {
+            _carDal.FindTest(year);
         }
 
         public List<Car> GetAll()
@@ -34,12 +53,17 @@ namespace Business.Concrete
 
         public void GetById(int carid)
         {
-            throw new NotImplementedException();
+            _carDal.GetById(carid);
+        }
+
+        public void JoinTest()
+        {
+            _carDal.JoinTest();
         }
 
         public void Update(Car car)
         {
-            throw new NotImplementedException();
+            _carDal.Update(car);
         }
     }
 }
