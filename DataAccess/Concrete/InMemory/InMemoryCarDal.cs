@@ -3,6 +3,7 @@ using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace DataAccess.Concrete.InMemory
@@ -105,7 +106,7 @@ namespace DataAccess.Concrete.InMemory
         public void FindAllTest(string aciklama)
         {
             var result = _cars.FindAll(i => i.Description.Contains(aciklama)).OrderByDescending(j => j.Description).ThenByDescending(k => k.ModelYear);
-            if (result != null)
+            if (result.Count() > 0)
             {
                 foreach (var item in result)
                 {
@@ -114,7 +115,7 @@ namespace DataAccess.Concrete.InMemory
             }
             else
             {
-                Console.WriteLine("Ürün yok.");
+                Console.WriteLine("Bu açıklamaya sahip ürün yok.");
             }
         }
 
@@ -136,6 +137,26 @@ namespace DataAccess.Concrete.InMemory
             {
                 Console.WriteLine("{0} {1} {2}",item.BrandName, item.Description, item.ModelYear);
             }
+        }
+
+        public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Car Get(Expression<Func<Car, bool>> filter)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Car> GetCarsByBrandId(Expression<Func<Car, bool>> filter)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Car> GetCarsByColorId(Expression<Func<Car, bool>> filter)
+        {
+            throw new NotImplementedException();
         }
     }
 }

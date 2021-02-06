@@ -18,17 +18,15 @@ namespace Business.Concrete
 
         public void Add(Car car)
         {
-            _carDal.Add(car);
-        }
-
-        public void AnyTest(int year)
-        {
-            _carDal.AnyTest(year);
-        }
-
-        public void ClassicLinqTest()
-        {
-            throw new NotImplementedException();
+            if (car.CarName.Length > 2 && car.DailyPrice > 0)
+            {
+                _carDal.Add(car);
+                Console.WriteLine(car.CarName + " eklendi.");
+            }
+            else
+            {
+                Console.WriteLine("Araba ismi minimum 2 karakter ve günlük fiyatı 0'dan büyük olmalıdır");
+            }            
         }
 
         public void Delete(Car car)
@@ -36,34 +34,29 @@ namespace Business.Concrete
             _carDal.Delete(car);
         }
 
-        public void FindAllTest(string name)
-        {
-            _carDal.FindAllTest(name);
-        }
-
-        public void FindTest(int year)
-        {
-            _carDal.FindTest(year);
-        }
-
         public List<Car> GetAll()
         {
             return _carDal.GetAll();
         }
 
-        public void GetById(int carid)
-        {
-            _carDal.GetById(carid);
-        }
-
-        public void JoinTest()
-        {
-            _carDal.JoinTest();
-        }
-
         public void Update(Car car)
         {
             _carDal.Update(car);
+        }
+
+        public Car GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Car> GetAllByColorId(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Car> GetAllByBrandId(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }
