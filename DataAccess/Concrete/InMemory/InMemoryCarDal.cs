@@ -124,18 +124,18 @@ namespace DataAccess.Concrete.InMemory
             var result = from c in _cars
                          where c.DailyPrice < 20000
                          orderby c.DailyPrice descending
-                         select new CarDto { Description = c.Description, ModelYear = c.ModelYear };
+                         select new CarDto { CarName = c.CarName };
         }
 
         public void JoinTest()
         {
             var result = from c in _cars join b in _brands
                          on c.BrandId equals b.BrandId
-                         select new CarDto { BrandName = b.BrandName, Description = c.Description, ModelYear = c.ModelYear };
+                         select new CarDto { BrandName = b.BrandName, CarName = c.CarName };
 
             foreach (var item in result)
             {
-                Console.WriteLine("{0} {1} {2}",item.BrandName, item.Description, item.ModelYear);
+                Console.WriteLine("{0} {1}",item.BrandName, item.CarName);
             }
         }
 

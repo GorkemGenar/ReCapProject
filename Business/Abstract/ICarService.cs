@@ -14,11 +14,6 @@ namespace Business.Abstract
         void Delete(Car car);
         List<Car> GetAllByColorId(int id);
         List<Car> GetAllByBrandId(int id);
-
-        //void AnyTest(int year);
-        //void FindTest(int year);
-        //void FindAllTest(string aciklama);
-        //void ClassicLinqTest();
-        //void JoinTest();
+        List<CarDto> GetCarDetails();
     }
 }

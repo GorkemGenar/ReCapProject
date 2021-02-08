@@ -11,41 +11,28 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            //CarManager carManager = new CarManager(new InMemoryCarDal());
-
-            //foreach (var car in carManager.GetAll())
-            //{
-            //    Console.WriteLine(car.Description);
-            //}
-
-            //Console.WriteLine("-----------------------------------------------------------");
-
-            //int year;
-            //Console.Write("Model Yılını Giriniz: ");
-            //year = int.Parse(Console.ReadLine());
-            //carManager.AnyTest(year);
-            //Console.WriteLine("-----------------------------------------------------------");
-            //carManager.FindTest(year);
-
-            //Console.WriteLine("-----------------------------------------------------------");
-
-            //string aciklama;
-            //Console.Write("Açıklama Giriniz: ");
-            //aciklama = Console.ReadLine();
-            //carManager.FindAllTest(aciklama);
-
-            //Console.WriteLine("-----------------------------------------------------------");
-
-            //carManager.JoinTest();
+            //CarAddTest();
 
             CarManager carManager = new CarManager(new EfCarDal());
 
-            string CarName, Description, BrandName, ColorName;
+            foreach (var car in carManager.GetCarDetails())
+            {
+                Console.WriteLine("{0} | {1} | {2} | {3}",car.CarName, car.BrandName, car.ColorName, car.DailyPrice);
+            }
+
+            Console.ReadKey();
+        }
+
+        private static void CarAddTest()
+        {
+            CarManager carManager = new CarManager(new EfCarDal());
+
+            string CarName, Description;
             bool Cont;
             int CarId, BrandId, ColorId, ModelYear;
             decimal DailyPrice;
 
-            for (; ;)
+            for (; ; )
             {
                 Console.Write("Arabanın Id'sini girin: ");
                 CarId = int.Parse(Console.ReadLine());
@@ -78,9 +65,6 @@ namespace ConsoleUI
                     break;
                 }
             }
-
-            Console.ReadKey();
-            
         }
     }
 }
