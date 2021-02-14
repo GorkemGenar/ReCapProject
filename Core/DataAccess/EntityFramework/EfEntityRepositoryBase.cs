@@ -28,31 +28,31 @@ namespace Core.DataAccess.EntityFramework
             }
         }
 
-        public void Add(TEntity car)
+        public void Add(TEntity entity)
         {
             using (TContext context = new TContext())
             {
-                var addedEntity = context.Entry(car);
+                var addedEntity = context.Entry(entity);
                 addedEntity.State = EntityState.Added;
                 context.SaveChanges();
             }
         }
 
-        public void Delete(TEntity car)
+        public void Delete(TEntity entity)
         {
             using (TContext context = new TContext())
             {
-                var deletedEntity = context.Entry(car);
+                var deletedEntity = context.Entry(entity);
                 deletedEntity.State = EntityState.Deleted;
                 context.SaveChanges();
             }
         }
 
-        public void Update(TEntity car)
+        public void Update(TEntity entity)
         {
             using (TContext context = new TContext())
             {
-                var updatedEntity = context.Entry(car);
+                var updatedEntity = context.Entry(entity);
                 updatedEntity.State = EntityState.Modified;
                 context.SaveChanges();
             }

@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
@@ -18,50 +20,52 @@ namespace Business.Concrete
             _carDal = carDal;
         }
 
-        public void Add(Car car)
+        public IResult Add(Car car)
         {
             if (car.CarName.Length > 2 && car.DailyPrice > 0)
             {
                 _carDal.Add(car);
-                Console.WriteLine(car.CarName + " eklendi.");
+                return new SuccessResult(Messages.CarAdded);
             }
             else
             {
-                Console.WriteLine("Araba ismi minimum 2 karakter ve günlük fiyatı 0'dan büyük olmalıdır");
+                return new ErrorResult(Messages.CarNameInvalid + " " +  Messages.CarDailyPriceInvalid);
             }            
         }
 
-        public void Delete(Car car)
+        public IResult Delete(Car car)
         {
-            _carDal.Delete(car);
+           _carDal.Delete(car);
+            return new SuccessResult(Messages.CarDeleted);
         }
 
-        public List<Car> GetAll()
+        public IDataResult<List<Car>> GetAll()
         {
-            return _carDal.GetAll();
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.CarListed);
         }
 
-        public void Update(Car car)
+        public IResult Update(Car car)
         {
             _carDal.Update(car);
+            return new SuccessResult(Messages.CarUpdated);
         }
 
-        public Car GetById(int id)
+        public IDataResult<Car> GetById(int id)
+        {
+            return new SuccessDataResult<Car>(_carDal.Get(c => c.CarId == id));
+        }
+
+        public IDataResult<List<Car>> GetAllByColorId(int id)
         {
             throw new NotImplementedException();
         }
 
-        public List<Car> GetAllByColorId(int id)
+        public IDataResult<List<Car>> GetAllByBrandId(int id)
         {
             throw new NotImplementedException();
         }
 
-        public List<Car> GetAllByBrandId(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<CarDto> GetCarDetails()
+        public IDataResult<List<CarDto>> GetCarDetails()
         {
             using (ReCapProjectContext context = new ReCapProjectContext())
             {
@@ -77,7 +81,7 @@ namespace Business.Concrete
                              };
                              
 
-                return result.ToList();
+                return new SuccessDataResult<List<CarDto>>(result.ToList(), Messages.CarListed);
             }
         }
     }

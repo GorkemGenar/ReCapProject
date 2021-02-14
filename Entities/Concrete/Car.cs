@@ -14,5 +14,7 @@ namespace Entities.Concrete
         public int ModelYear { get; set; }
         public decimal DailyPrice { get; set; }
         public string Description { get; set; }
+
+        public virtual List<Rental> Rentals { get; set; } // One to Many with dbo.Rentals
     }
 }

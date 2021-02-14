@@ -12,15 +12,79 @@ namespace ConsoleUI
         static void Main(string[] args)
         {
             //CarAddTest();
-
-            CarManager carManager = new CarManager(new EfCarDal());
-
-            foreach (var car in carManager.GetCarDetails())
-            {
-                Console.WriteLine("{0} | {1} | {2} | {3}",car.CarName, car.BrandName, car.ColorName, car.DailyPrice);
-            }
+            //GettingCarDetailsTest();
+            //GetCarByIdTest();
+            //AddUserTest();
+            //AddCustomerTest();
 
             Console.ReadKey();
+        }
+
+        private static void AddCustomerTest()
+        {
+            CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+
+            Console.Write("Şirket Adı: ");
+            string companyName = Console.ReadLine();
+
+            Console.Write("User Id: ");
+            int userId = int.Parse(Console.ReadLine());
+
+            customerManager.Add(
+                new Customer
+                {
+                    CompanyName = companyName,
+                    UserId = userId
+                }
+            );
+        }
+
+        private static void AddUserTest()
+        {
+            UserManager userManager = new UserManager(new EfUserDal());
+
+            Console.Write("İsim: ");
+            string firstname = Console.ReadLine();
+
+            Console.Write("Soyisim: ");
+            string lastname = Console.ReadLine();
+
+            Console.Write("Email: ");
+            string email = Console.ReadLine();
+
+            Console.Write("Şifre: ");
+            string password = Console.ReadLine();
+
+            userManager.Add(
+                new User
+                {
+                    FirstName = firstname,
+                    LastName = lastname,
+                    Email = email,
+                    Password = password
+                }
+            );
+        }
+
+        private static void GetCarByIdTest()
+        {
+            CarManager carManager = new CarManager(new EfCarDal());
+
+            int carId;
+            Console.Write("Listelenecek aracın Id'sini girin: ");
+            carId = int.Parse(Console.ReadLine());
+
+            Console.WriteLine(carManager.GetById(carId).Data.CarName);
+        }
+
+        private static void GettingCarDetailsTest()
+        {
+            CarManager carManager = new CarManager(new EfCarDal());
+
+            foreach (var car in carManager.GetCarDetails().Data)
+            {
+                Console.WriteLine("{0} | {1} | {2} | {3}", car.CarName, car.BrandName, car.ColorName, car.DailyPrice);
+            }
         }
 
         private static void CarAddTest()
