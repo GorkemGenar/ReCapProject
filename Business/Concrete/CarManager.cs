@@ -57,12 +57,12 @@ namespace Business.Concrete
 
         public IDataResult<List<Car>> GetAllByColorId(int id)
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == id));
         }
 
         public IDataResult<List<Car>> GetAllByBrandId(int id)
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.BrandId == id));
         }
 
         public IDataResult<List<CarDto>> GetCarDetails()
