@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Core.Entities.Abstract;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Entities.Concrete
+namespace Entities.DTOs
 {
-    public class CarDto
+    public class CarDto : IDto
     {
         public string CarName { get; set; }
         public string BrandName { get; set; }
