@@ -69,10 +69,13 @@ namespace Business.Concrete
                              join clr in context.Colors on c.ColorId equals clr.ColorId
                              select new CarDto
                              {
+                                CarId = c.CarId,
                                 CarName = c.CarName,
                                 BrandName = b.BrandName,
                                 ColorName = clr.ColorName,
-                                DailyPrice = c.DailyPrice
+                                DailyPrice = c.DailyPrice,
+                                ModelYear = c.ModelYear,
+                                Description = c.Description
                              };
                              
 

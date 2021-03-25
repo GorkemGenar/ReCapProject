@@ -30,6 +30,7 @@ namespace Core.Aspects.Autofac.Performance
             {
                 SendMail sendMail = new SendMail();
                 sendMail.Send($"Performance : {invocation.Method.DeclaringType.FullName}.{invocation.Method.Name}-->{_stopwatch.Elapsed.TotalSeconds}");
+                Debug.WriteLine($"Performance : {invocation.Method.DeclaringType.FullName}.{invocation.Method.Name}-->{_stopwatch.Elapsed.TotalSeconds}");
             }
             _stopwatch.Reset();
         }
