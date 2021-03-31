@@ -1,12 +1,7 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
@@ -33,9 +28,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(int id)
+        public IActionResult GetById(int carId)
         {
-            var result = _carService.GetById(id);
+            var result = _carService.GetById(carId);
             if (result.Success)
             {
                 return Ok(result);
@@ -77,9 +72,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getallbycolorid")] 
-        public IActionResult GetAllByColorId(int id)
+        public IActionResult GetAllByColorId(int colorId)
         {
-            var result = _carService.GetAllByColorId(id);
+            var result = _carService.GetAllByColorId(colorId);
             if (result.Success)
             {
                 return Ok(result);
@@ -88,9 +83,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getallbybrandid")]
-        public IActionResult GetAllByBrandId(int id)
+        public IActionResult GetAllByBrandId(int brandId)
         {
-            var result = _carService.GetAllByBrandId(id);
+            var result = _carService.GetAllByBrandId(brandId);
             if (result.Success)
             {
                 return Ok(result);

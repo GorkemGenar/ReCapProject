@@ -45,19 +45,74 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CarUpdated);
         }
 
-        public IDataResult<Car> GetById(int id)
+        public IDataResult<CarDto> GetById(int carId)
         {
-            return new SuccessDataResult<Car>(_carDal.Get(c => c.CarId == id));
+            using (ReCapProjectContext context = new ReCapProjectContext())
+            {
+                var result = from c in context.Cars
+                             join b in context.Brands on c.BrandId equals b.BrandId
+                             join clr in context.Colors on c.ColorId equals clr.ColorId
+                             join img in context.CarImages on c.CarId equals img.CarId
+                             where c.CarId == carId
+                             select new CarDto
+                             {
+                                 CarId = c.CarId,
+                                 CarName = c.CarName,
+                                 BrandName = b.BrandName,
+                                 ColorName = clr.ColorName,
+                                 DailyPrice = c.DailyPrice,
+                                 ModelYear = c.ModelYear,
+                                 Description = c.Description,
+                                 ImagePath = img.ImagePath
+                             };
+                return new SuccessDataResult<CarDto>(result.FirstOrDefault(), Messages.CarListed);
+            }
         }
 
-        public IDataResult<List<Car>> GetAllByColorId(int id)
+        public IDataResult<List<CarDto>> GetAllByColorId(int id)
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == id));
+            using (ReCapProjectContext context = new ReCapProjectContext())
+            {
+                var result = from c in context.Cars
+                             join b in context.Brands on c.BrandId equals b.BrandId
+                             join clr in context.Colors on c.ColorId equals clr.ColorId
+                             where c.ColorId == id
+                             select new CarDto
+                             {
+                                 CarId = c.CarId,
+                                 CarName = c.CarName,
+                                 BrandName = b.BrandName,
+                                 ColorName = clr.ColorName,
+                                 DailyPrice = c.DailyPrice,
+                                 ModelYear = c.ModelYear,
+                                 Description = c.Description
+                             };
+
+                return new SuccessDataResult<List<CarDto>>(result.ToList(), Messages.CarListed);
+            }
         }
 
-        public IDataResult<List<Car>> GetAllByBrandId(int id)
+        public IDataResult<List<CarDto>> GetAllByBrandId(int id)
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.BrandId == id));
+            using (ReCapProjectContext context = new ReCapProjectContext())
+            {
+                var result = from c in context.Cars
+                             join b in context.Brands on c.BrandId equals b.BrandId
+                             join clr in context.Colors on c.ColorId equals clr.ColorId
+                             where c.BrandId == id
+                             select new CarDto
+                             {
+                                 CarId = c.CarId,
+                                 CarName = c.CarName,
+                                 BrandName = b.BrandName,
+                                 ColorName = clr.ColorName,
+                                 DailyPrice = c.DailyPrice,
+                                 ModelYear = c.ModelYear,
+                                 Description = c.Description
+                             };
+
+                return new SuccessDataResult<List<CarDto>>(result.ToList(), Messages.CarListed);
+            }
         }
 
         public IDataResult<List<CarDto>> GetCarDetails()
@@ -78,7 +133,6 @@ namespace Business.Concrete
                                 Description = c.Description
                              };
                              
-
                 return new SuccessDataResult<List<CarDto>>(result.ToList(), Messages.CarListed);
             }
         }
