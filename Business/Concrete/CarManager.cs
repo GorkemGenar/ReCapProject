@@ -7,6 +7,7 @@ using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using Entities.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -20,98 +21,67 @@ namespace Business.Concrete
         {
             _carDal = carDal;
         }
-
         [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car)
         {
             _carDal.Add(car);
-            return new SuccessResult(Messages.CarAdded);          
+            return new SuccessResult(Messages.CarAdded);
         }
 
         public IResult Delete(Car car)
         {
-           _carDal.Delete(car);
+            _carDal.Delete(car);
             return new SuccessResult(Messages.CarDeleted);
         }
 
         public IDataResult<List<Car>> GetAll()
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll());
+            if (DateTime.Now.Hour == 06)
+            {
+                return new ErrorDataResult<List<Car>>(Messages.MaintenanceTime);
+            }
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.CarListed);
         }
 
+        public IDataResult<Car> GetById(int carId)
+        {
+            return new SuccessDataResult<Car>(_carDal.Get(c => c.CarId == carId));
+        }
+
+        public IDataResult<List<CarDto>> GetCarDetails()
+        {
+            return new SuccessDataResult<List<CarDto>>(_carDal.GetCarDetails(), Messages.CarListed);
+        }
+
+        public IDataResult<List<Car>> GetByBrandId(int brandId)
+        {
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.BrandId == brandId), Messages.CarListed);
+        }
+
+        public IDataResult<List<Car>> GetByColorId(int colorId)
+        {
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == colorId), Messages.CarListed);
+        }
+        [ValidationAspect(typeof(CarValidator))]
         public IResult Update(Car car)
         {
             _carDal.Update(car);
             return new SuccessResult(Messages.CarUpdated);
         }
 
-        public IDataResult<List<CarDto>> GetAllByColorId(int id)
+        public IDataResult<List<CarDto>> GetCarDetailsByCarId(int carId)
         {
-            using (ReCapProjectContext context = new ReCapProjectContext())
-            {
-                var result = from c in context.Cars
-                             join b in context.Brands on c.BrandId equals b.BrandId
-                             join clr in context.Colors on c.ColorId equals clr.ColorId
-                             where c.ColorId == id
-                             select new CarDto
-                             {
-                                 CarId = c.CarId,
-                                 CarName = c.CarName,
-                                 BrandName = b.BrandName,
-                                 ColorName = clr.ColorName,
-                                 DailyPrice = c.DailyPrice,
-                                 ModelYear = c.ModelYear,
-                                 Description = c.Description
-                             };
-
-                return new SuccessDataResult<List<CarDto>>(result.ToList(), Messages.CarListed);
-            }
+            return new SuccessDataResult<List<CarDto>>(_carDal.GetCarDetails(c => c.CarId == carId));
         }
 
-        public IDataResult<List<CarDto>> GetAllByBrandId(int id)
+        public IDataResult<List<CarDto>> GetCarDetailsByBrandId(int brandId)
         {
-            using (ReCapProjectContext context = new ReCapProjectContext())
-            {
-                var result = from c in context.Cars
-                             join b in context.Brands on c.BrandId equals b.BrandId
-                             join clr in context.Colors on c.ColorId equals clr.ColorId
-                             where c.BrandId == id
-                             select new CarDto
-                             {
-                                 CarId = c.CarId,
-                                 CarName = c.CarName,
-                                 BrandName = b.BrandName,
-                                 ColorName = clr.ColorName,
-                                 DailyPrice = c.DailyPrice,
-                                 ModelYear = c.ModelYear,
-                                 Description = c.Description
-                             };
-
-                return new SuccessDataResult<List<CarDto>>(result.ToList(), Messages.CarListed);
-            }
+            return new SuccessDataResult<List<CarDto>>(_carDal.GetCarDetails(c => c.BrandId == brandId));
         }
 
-        public IDataResult<List<CarDto>> GetCarDetails(int id)
+        public IDataResult<List<CarDto>> GetCarDetailsByColorId(int colorId)
         {
-            using (ReCapProjectContext context = new ReCapProjectContext())
-            {
-                var result = from c in context.Cars
-                             join b in context.Brands on c.BrandId equals b.BrandId
-                             join clr in context.Colors on c.ColorId equals clr.ColorId
-                             where c.CarId == id
-                             select new CarDto
-                             {
-                                CarId = c.CarId,
-                                CarName = c.CarName,
-                                BrandName = b.BrandName,
-                                ColorName = clr.ColorName,
-                                DailyPrice = c.DailyPrice,
-                                ModelYear = c.ModelYear,
-                                Description = c.Description
-                             };
-                             
-                return new SuccessDataResult<List<CarDto>>(result.ToList(), Messages.CarListed);
-            }
+            return new SuccessDataResult<List<CarDto>>(_carDal.GetCarDetails(c => c.ColorId == colorId));
         }
     }
 }
