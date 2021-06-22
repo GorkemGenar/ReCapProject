@@ -45,30 +45,6 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CarUpdated);
         }
 
-        public IDataResult<CarDto> GetById(int carId)
-        {
-            using (ReCapProjectContext context = new ReCapProjectContext())
-            {
-                var result = from c in context.Cars
-                             join b in context.Brands on c.BrandId equals b.BrandId
-                             join clr in context.Colors on c.ColorId equals clr.ColorId
-                             join img in context.CarImages on c.CarId equals img.CarId
-                             where c.CarId == carId
-                             select new CarDto
-                             {
-                                 CarId = c.CarId,
-                                 CarName = c.CarName,
-                                 BrandName = b.BrandName,
-                                 ColorName = clr.ColorName,
-                                 DailyPrice = c.DailyPrice,
-                                 ModelYear = c.ModelYear,
-                                 Description = c.Description,
-                                 ImagePath = img.ImagePath
-                             };
-                return new SuccessDataResult<CarDto>(result.FirstOrDefault(), Messages.CarListed);
-            }
-        }
-
         public IDataResult<List<CarDto>> GetAllByColorId(int id)
         {
             using (ReCapProjectContext context = new ReCapProjectContext())
@@ -115,13 +91,14 @@ namespace Business.Concrete
             }
         }
 
-        public IDataResult<List<CarDto>> GetCarDetails()
+        public IDataResult<List<CarDto>> GetCarDetails(int id)
         {
             using (ReCapProjectContext context = new ReCapProjectContext())
             {
                 var result = from c in context.Cars
                              join b in context.Brands on c.BrandId equals b.BrandId
                              join clr in context.Colors on c.ColorId equals clr.ColorId
+                             where c.CarId == id
                              select new CarDto
                              {
                                 CarId = c.CarId,
