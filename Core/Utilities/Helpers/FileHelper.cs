@@ -13,7 +13,7 @@ namespace Core.Utilities.Helpers
         {
             string directory = Environment.CurrentDirectory + @"\wwwroot";
             string fileName = CreateNewFileName(image.FileName);
-            string path = Path.Combine(directory, "Images");
+            string path = Path.Combine(directory, "images");
 
             if (!Directory.Exists(path))
             {
@@ -67,7 +67,7 @@ namespace Core.Utilities.Helpers
             FileInfo ff = new FileInfo(file.FileName);
             string fileExtension = ff.Extension;
 
-            string path = Environment.CurrentDirectory + @"\Images";
+            string path = Environment.CurrentDirectory + @"\images";
             var newPath = Guid.NewGuid().ToString() + "_" + DateTime.Now.Month + "_" + DateTime.Now.Day + "_" + DateTime.Now.Year + fileExtension;
 
             string result = $@"{path}\{newPath}";
