@@ -6,6 +6,7 @@ using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using System;
 using System.Collections.Generic;
 
 namespace Business.Concrete
@@ -22,10 +23,15 @@ namespace Business.Concrete
         [ValidationAspect(typeof(RentalValidator))]
         public IResult Add(Rental rental)
         {
-            if (rental.ReturnDate is null)
+            var result = _rentalDal.GetAll(r => r.CarId == rental.CarId);
+            foreach (var rent in result)
             {
-                return new ErrorResult(Messages.CarIsNotAvailable);
+                if(rent.ReturnDate > rental.RentDate)
+                {
+                    return new ErrorResult(Messages.CarIsNotAvailable);
+                }
             }
+            
             _rentalDal.Add(rental);
             return new SuccessResult(Messages.RentalAdded);
         }
