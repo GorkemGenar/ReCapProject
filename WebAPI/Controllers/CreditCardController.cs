@@ -43,6 +43,28 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpGet("getbyuserid")]
+        public IActionResult GetByUser(int userId)
+        {
+            var result = _creditCardService.GetByUser(userId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpPost("checkthecard")]
+        public IActionResult CheckTheCreditCard(PaymentDto paymentDto)
+        {
+            var result = _creditCardService.CheckTheCreditCard(paymentDto);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
         [HttpPost("add")]
         public IActionResult Add(AddCreditCardDto addCreditCardDto)
         {

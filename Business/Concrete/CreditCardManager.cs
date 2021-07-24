@@ -6,7 +6,7 @@ using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
-using System.Text;
+
 
 namespace Business.Concrete
 {
@@ -62,6 +62,27 @@ namespace Business.Concrete
         {
             _creditCardDal.Update(creditCard);
             return new SuccessResult();
+        }
+
+        public IDataResult<CreditCard> CheckTheCreditCard(PaymentDto paymentDto)
+        {
+            var getCardToCheck = _creditCardDal.GetByUser(paymentDto.UserId);
+
+            var cardNumberStatus = HashingHelper.VerifyCardNumberHash(paymentDto.CardNumber, getCardToCheck.CardNumberHash, getCardToCheck.CardNumberSalt);
+            var expirationDateStatus = HashingHelper.VerifyExpirationDateHash(paymentDto.ExpirationDate, getCardToCheck.ExpirationDateHash, getCardToCheck.ExpirationDateSalt);
+            var cvvStatus = HashingHelper.VerifyCvvHash(paymentDto.Cvv, getCardToCheck.CvvHash, getCardToCheck.CvvSalt);
+
+            if (!cardNumberStatus || !expirationDateStatus || !cvvStatus)
+            {
+                return new ErrorDataResult<CreditCard>("Kart bilgileri hatalı.");
+            }
+
+            return new SuccessDataResult<CreditCard>(getCardToCheck, "Ödeme işlemi başarılı.");
+        }
+
+        public IDataResult<CreditCard> GetByUser(int userId)
+        {
+            return new SuccessDataResult<CreditCard>(_creditCardDal.GetByUser(userId));
         }
     }
 }
