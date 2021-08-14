@@ -164,5 +164,15 @@ namespace DataAccess.Concrete.InMemory
         {
             throw new NotImplementedException();
         }
+
+        public Car addCar(CarDto car)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Car addCar(Car car)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

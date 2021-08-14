@@ -36,5 +36,15 @@ namespace DataAccess.Concrete.EntityFramework
                 return result.ToList();
             }
         }
+
+        public List<Rental> GetRentalByCarId(int carId)
+        {
+            using (ReCapProjectContext context = new ReCapProjectContext())
+            {
+                var result = context.Rentals.Where(r => r.CarId == carId);
+
+                return result.ToList();
+            }
+        }
     }
 }

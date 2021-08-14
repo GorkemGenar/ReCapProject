@@ -50,6 +50,8 @@ namespace WebAPI
             //services.AddSingleton<IRentalDal, EfRentalDal>();
             //services.AddSingleton<IUserService, UserManager>();
             //services.AddSingleton<IUserDal, EfUserDal>();
+            
+            services.AddControllersWithViews();
 
             services.AddCors();
 
@@ -82,7 +84,9 @@ namespace WebAPI
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors(builder => builder.WithOrigins("http://localhost:4200", "http://localhost:57764", "http://localhost:54969").AllowAnyHeader());
+            app.ConfigureCustomExceptionMiddleware();
+
+            app.UseCors(builder => builder.WithOrigins("http://localhost:4200", "http://localhost:57764", "http://localhost:54969", "http://localhost:50726").AllowAnyHeader());
 
             app.UseHttpsRedirection();
 
