@@ -28,7 +28,7 @@ namespace Business.Concrete
             {
                 if(rent.ReturnDate > rental.RentDate)
                 {
-                    return new ErrorResult(Messages.CarIsNotAvailable);
+                    return new ErrorResult(Messages.RentalCarIsNotAvailable);
                 }
             }
             

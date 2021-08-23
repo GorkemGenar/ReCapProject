@@ -1,10 +1,7 @@
 ﻿using Business.Abstract;
-using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
-using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Validation;
-using Core.Utilities;
 using Core.Utilities.Business;
 using Core.Utilities.Helpers;
 using Core.Utilities.Results;
@@ -13,9 +10,7 @@ using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace Business.Concrete
 {
@@ -85,7 +80,7 @@ namespace Business.Concrete
             var carImageCount = _carImageDal.GetAll(p => p.CarId == carId).Count;
             if (carImageCount >= 5)
             {
-                return new ErrorResult(Messages.CarImageLimitExceeded);
+                return new ErrorResult(Messages.ImageCarLimitExceeded);
             }
 
             return new SuccessResult();

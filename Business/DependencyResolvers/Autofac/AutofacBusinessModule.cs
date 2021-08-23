@@ -51,13 +51,15 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<AuthManager>().As<IAuthService>();
             builder.RegisterType<JwtHelper>().As<ITokenHelper>();
 
+            builder.RegisterType<FindexManager>().As<IFindexService>();
+            builder.RegisterType<EfFindexDal>().As<IFindexDal>();
+
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
-            builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()
-                .EnableInterfaceInterceptors(new ProxyGenerationOptions()
-                {
-                    Selector = new AspectInterceptorSelector()
-                }).SingleInstance();
+            builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces().EnableInterfaceInterceptors(new ProxyGenerationOptions()
+            {
+                Selector = new AspectInterceptorSelector()
+            }).SingleInstance();
 
         }
     }

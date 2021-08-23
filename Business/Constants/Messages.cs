@@ -9,6 +9,14 @@ namespace Business.Constants
 {
     public static class Messages
     {
+        public static string AuthUserRegistered = "Kayıt Başarılı";
+        public static string AuthUserNotFound = "Kullanıcı bulunamadı.";
+        public static string AuthPasswordError = "Şifre hatalı.";
+        public static string AuthSuccessfulLogin = "Başarılı giriş.";
+        public static string AuthUserAlreadyExists = "Kullanıcı zaten mevcut.";
+        public static string AuthAccessTokenCreated = "Token oluşturuldu.";
+        public static string AuthorizationDenied = "Yetkiniz yok.";
+
         public static string CarAdded = "Araç başarılı şekilde eklendi.";
         public static string CarDeleted = "Araç başarılı şekilde silindi.";
         public static string CarUpdated = "Araç başarılı şekilde güncellendi.";
@@ -35,23 +43,17 @@ namespace Business.Constants
         public static string RentalDeleted = "Kiralama işlemi başarılı şekilde silindi.";
         public static string RentalUpdated = "Kiralama işlemi başarılı şekilde güncellendi.";
         public static string RentalsListed = "Kiralama işlemleri listelendi.";
+        public static string RentalCarIsNotAvailable = "Araç kiralamaya uygun değil.";
 
-        public static string CarIsNotAvailable = "Araç kiralamaya uygun değil.";
-
-        public static string CarImageLimitExceeded = "5'den fazla resim eklenemez.";
+        public static string ImageCarLimitExceeded = "5'den fazla resim eklenemez.";
         public static string ImageAdded = "Resim(ler) eklendi.";
         public static string ImageDeleted = "Resim(ler) silindi.";
         public static string ImagesListed = "Resimler Listelendi.";
         public static string ImageUpdated = "Resim güncellendi.";
-        public static string AuthorizationDenied = "Yetkiniz yok.";
-
-        public static string UserRegistered = "Kayıt Başarılı";
-        public static string UserNotFound = "Kullanıcı bulunamadı.";
-        public static string PasswordError = "Şifre hatalı.";
-        public static string SuccessfulLogin = "Başarılı giriş.";
-        public static string UserAlreadyExists = "Kullanıcı zaten mevcut.";
-        public static string AccessTokenCreated = "Token oluşturuldu.";
 
         public static string MaintenanceTime = "Sistem Bakımda.";
+
+        public static string FindexRateAdded = "Findex puanı eklendi.";
+        public static string FindexRateUpdated = "Findex puanı güncellendi.";
     }
 }

@@ -31,6 +31,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  ColorName = clr.ColorName,
                                  ModelYear = c.ModelYear,
                                  DailyPrice = c.DailyPrice,
+                                 MinRequiredFindexRate = c.MinRequiredFindexRate,
                                  Description = c.Description,
                                  CarImage = (from i in context.CarImages
                                              where (c.CarId == i.CarId)
