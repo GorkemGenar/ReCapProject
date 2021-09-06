@@ -10,16 +10,16 @@ using System.Collections.Generic;
 
 namespace Business.Concrete
 {
-    class CreditCardManager : ICreditCardService
+    class FromBankCreditCardManager : IFromBankCreditCardService
     {
-        ICreditCardDal _creditCardDal;
+        IFromBankCreditCardDal _creditCardDal;
 
-        public CreditCardManager(ICreditCardDal creditCardDal)
+        public FromBankCreditCardManager(IFromBankCreditCardDal creditCardDal)
         {
             _creditCardDal = creditCardDal;
         }
 
-        public IDataResult<CreditCard> Add(AddCreditCardDto addCreditCardDto, string cardNumber, string expirationDate, string cvv)
+        public IDataResult<FromBankCreditCard> Add(AddCreditCardDto addCreditCardDto, string cardNumber, string expirationDate, string cvv)
         {
             byte[] cardNumberHash, cardNumberSalt, expirationDateHash, expirationDateSalt, cvvHash, cvvSalt;
 
@@ -27,7 +27,7 @@ namespace Business.Concrete
             HashingHelper.CreateExpirationDateHash(expirationDate, out expirationDateHash, out expirationDateSalt);
             HashingHelper.CreateCvvHash(cvv, out cvvHash, out cvvSalt);
 
-            var card = new CreditCard
+            var card = new FromBankCreditCard
             {
                 Id = addCreditCardDto.Id,
                 UserId = addCreditCardDto.UserId,
@@ -39,32 +39,32 @@ namespace Business.Concrete
                 ExpirationDateSalt = expirationDateSalt
             };
             _creditCardDal.Add(card);
-            return new SuccessDataResult<CreditCard>(card, "Eklendi");
+            return new SuccessDataResult<FromBankCreditCard>(card, "Eklendi");
         }
 
-        public IResult Delete(CreditCard creditCard)
+        public IResult Delete(FromBankCreditCard creditCard)
         {
             _creditCardDal.Delete(creditCard);
             return new SuccessResult();
         }
 
-        public IDataResult<List<CreditCard>> GetAll()
+        public IDataResult<List<FromBankCreditCard>> GetAll()
         {
-            return new SuccessDataResult<List<CreditCard>>(_creditCardDal.GetAll());
+            return new SuccessDataResult<List<FromBankCreditCard>>(_creditCardDal.GetAll());
         }
 
-        public IDataResult<CreditCard> GetById(int id)
+        public IDataResult<FromBankCreditCard> GetById(int id)
         {
-            return new SuccessDataResult<CreditCard>(_creditCardDal.Get(c => c.Id == id));
+            return new SuccessDataResult<FromBankCreditCard>(_creditCardDal.Get(c => c.Id == id));
         }
 
-        public IResult Update(CreditCard creditCard)
+        public IResult Update(FromBankCreditCard creditCard)
         {
             _creditCardDal.Update(creditCard);
             return new SuccessResult();
         }
 
-        public IDataResult<CreditCard> CheckTheCreditCard(PaymentDto paymentDto)
+        public IDataResult<FromBankCreditCard> CheckTheCreditCard(PaymentDto paymentDto)
         {
             var getCardToCheck = _creditCardDal.GetByUser(paymentDto.UserId);
 
@@ -74,15 +74,15 @@ namespace Business.Concrete
 
             if (!cardNumberStatus || !expirationDateStatus || !cvvStatus)
             {
-                return new ErrorDataResult<CreditCard>("Kart bilgileri hatalı.");
+                return new ErrorDataResult<FromBankCreditCard>("Kart bilgileri hatalı.");
             }
 
-            return new SuccessDataResult<CreditCard>(getCardToCheck, "Ödeme işlemi başarılı.");
+            return new SuccessDataResult<FromBankCreditCard>(getCardToCheck, "Ödeme işlemi başarılı.");
         }
 
-        public IDataResult<CreditCard> GetByUser(int userId)
+        public IDataResult<FromBankCreditCard> GetByUser(int userId)
         {
-            return new SuccessDataResult<CreditCard>(_creditCardDal.GetByUser(userId));
+            return new SuccessDataResult<FromBankCreditCard>(_creditCardDal.GetByUser(userId));
         }
     }
 }

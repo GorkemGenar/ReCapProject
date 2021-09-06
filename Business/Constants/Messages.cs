@@ -55,5 +55,17 @@ namespace Business.Constants
 
         public static string FindexRateAdded = "Findex puanı eklendi.";
         public static string FindexRateUpdated = "Findex puanı güncellendi.";
+
+        public static string CardSaved = "Kredi kartı kaydedildi.";
+        public static string CardAlreadySaved = "Kart sistemde kayıtlı.";
+        public static string CardsListed = "Kartlar listelendi";
+        public static string CardsUpdated = "Kart bilgileri güncellendi.";
+        public static string CardsDeleted = "Kart bilgileri sistemden silindi.";
+        public static string NoCardForUser = "Sistemde bu kullanıcıya ait tanımlı kart yok.";
+        public static string NoCardInSystem = "Kart sistemde kayıtlı değil";
+
+
+        public static string PaymentSuccessful = "Ödeme başarılı şeklide gerçekleşti.";
+        public static string PaymentFail = "Ödeme işlemi başarısız.";
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Entities.Concrete
 {
-    public class CreditCard:IEntity
+    public class SavedCreditCard:IEntity
     {
         public int Id { get; set; }
         public int UserId { get; set; }

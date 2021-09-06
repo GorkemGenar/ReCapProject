@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
+using Business.Constants;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -17,10 +19,11 @@ namespace Business.Concrete
             _paymentDal = paymentDal;
         }
 
+        //[SecuredOperation("payment.add")]
         public IResult Add(Payment payment)
         {
             _paymentDal.Add(payment);
-            return new SuccessResult();
+            return new SuccessResult(Messages.PaymentSuccessful);
         }
 
         public IResult Delete(Payment payment)

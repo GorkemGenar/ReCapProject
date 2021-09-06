@@ -12,11 +12,11 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CreditCardController : ControllerBase
+    public class FromBankCreditCardController : ControllerBase
     {
-        ICreditCardService _creditCardService;
+        IFromBankCreditCardService _creditCardService;
 
-        public CreditCardController(ICreditCardService creditCardService)
+        public FromBankCreditCardController(IFromBankCreditCardService creditCardService)
         {
             _creditCardService = creditCardService;
         }
@@ -77,7 +77,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("update")]
-        public IActionResult Update(CreditCard creditCard)
+        public IActionResult Update(FromBankCreditCard creditCard)
         {
             var result = _creditCardService.Update(creditCard);
             if (result.Success)
@@ -88,7 +88,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(CreditCard creditCard)
+        public IActionResult Delete(FromBankCreditCard creditCard)
         {
             var result = _creditCardService.Delete(creditCard);
             if (result.Success)

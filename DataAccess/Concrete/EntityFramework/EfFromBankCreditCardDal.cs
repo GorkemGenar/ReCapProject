@@ -7,17 +7,17 @@ using System.Linq;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class EfCreditCardDal : EfEntityRepositoryBase<CreditCard, ReCapProjectContext>, ICreditCardDal
+    public class EfFromBankCreditCardDal : EfEntityRepositoryBase<FromBankCreditCard, ReCapProjectContext>, IFromBankCreditCardDal
     {
-        public CreditCard GetByUser(int userId)
+        public FromBankCreditCard GetByUser(int userId)
         {
             using (var context = new ReCapProjectContext())
             {
                 var result = from u in context.Users
-                             join c in context.CreditCards
+                             join c in context.FromBankCreditCards
                              on u.Id equals c.UserId
                              where c.Id == userId
-                             select new CreditCard
+                             select new FromBankCreditCard
                              {
                                  UserId = u.Id,
                                  CardNumberHash = c.CardNumberHash,

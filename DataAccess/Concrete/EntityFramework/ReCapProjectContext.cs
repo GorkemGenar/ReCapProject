@@ -20,7 +20,8 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<OperationClaim> OperationClaims { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
-        public DbSet<CreditCard> CreditCards { get; set; }
+        public DbSet<FromBankCreditCard> FromBankCreditCards { get; set; }
+        public DbSet<SavedCreditCard> SavedCreditCards { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Findex> Findexes { get; set; }
     }

@@ -1,6 +1,6 @@
 ﻿using Business.Abstract;
-using Core.Entities.Concrete;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,19 +12,19 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class SavedCreditCardController : ControllerBase
     {
-        IUserService _userService;
+        ISavedCreditCardService _savedcreditCardService;
 
-        public UsersController(IUserService userService)
+        public SavedCreditCardController(ISavedCreditCardService savedcreditCardService)
         {
-            _userService = userService;
+            _savedcreditCardService = savedcreditCardService;
         }
 
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
-            var result = _userService.GetAll();
+            var result = _savedcreditCardService.GetAll();
             if (result.Success)
             {
                 return Ok(result);
@@ -35,7 +35,7 @@ namespace WebAPI.Controllers
         [HttpGet("getbyid")]
         public IActionResult GetById(int id)
         {
-            var result = _userService.GetById(id);
+            var result = _savedcreditCardService.GetById(id);
             if (result.Success)
             {
                 return Ok(result);
@@ -43,10 +43,10 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getbyemail")]
-        public IActionResult GetByEmail(string email)
+        [HttpGet("getbyuserid")]
+        public IActionResult GetByUser(int userId)
         {
-            var result = _userService.GetByMail(email);
+            var result = _savedcreditCardService.GetByUser(userId);
             if (result.Success)
             {
                 return Ok(result);
@@ -55,9 +55,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(User user)
+        public IActionResult Add(AddCreditCardDto addCreditCardDto)
         {
-            var result = _userService.Add(user);
+            var result = _savedcreditCardService.Add(addCreditCardDto, addCreditCardDto.CardNumber, addCreditCardDto.ExpirationDate, addCreditCardDto.Cvv);
             if (result.Success)
             {
                 return Ok(result);
@@ -66,9 +66,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("update")]
-        public IActionResult Update(User user)
+        public IActionResult Update(SavedCreditCard savedCreditCard)
         {
-            var result = _userService.Update(user);
+            var result = _savedcreditCardService.Update(savedCreditCard);
             if (result.Success)
             {
                 return Ok(result);
@@ -77,9 +77,20 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(User user)
+        public IActionResult Delete(SavedCreditCard savedCreditCard)
         {
-            var result = _userService.Delete(user);
+            var result = _savedcreditCardService.Delete(savedCreditCard);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpPost("checkthecard")]
+        public IActionResult CheckTheCreditCard(PaymentDto paymentDto)
+        {
+            var result = _savedcreditCardService.CheckTheCreditCard(paymentDto);
             if (result.Success)
             {
                 return Ok(result);

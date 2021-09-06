@@ -1,14 +1,13 @@
 ﻿using Core.DataAccess;
 using Entities.Concrete;
-using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace DataAccess.Abstract
 {
-    public interface ICreditCardDal: IEntityRepository<CreditCard>
+    public interface ISavedCreditCardDal:IEntityRepository<SavedCreditCard>
     {
-        CreditCard GetByUser(int userId);
+        SavedCreditCard GetByUser(int userId);
     }
 }
