@@ -11,6 +11,7 @@ using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Business.Concrete
@@ -24,42 +25,35 @@ namespace Business.Concrete
             _savedCreditCardDal = savedCreditCreditCardDal;
         }
 
-        public IDataResult<SavedCreditCard> Add(AddCreditCardDto addCreditCardDto, string cardNumber, string expirationDate, string cvv)
+        public IDataResult<SavedCreditCard> Add(SavedCreditCard addCreditCardDto)
         {
-            byte[] cardNumberHash, cardNumberSalt, expirationDateHash, expirationDateSalt, cvvHash, cvvSalt;
-
-            HashingHelper.CreateCardNumberHash(cardNumber, out cardNumberHash, out cardNumberSalt);
-            HashingHelper.CreateExpirationDateHash(expirationDate, out expirationDateHash, out expirationDateSalt);
-            HashingHelper.CreateCvvHash(cvv, out cvvHash, out cvvSalt);
-
-            var card = new SavedCreditCard
-            {
-                Id = addCreditCardDto.Id,
-                UserId = addCreditCardDto.UserId,
-                CardNumberHash = cardNumberHash,
-                CardNumberSalt = cardNumberSalt,
-                CvvHash = cvvHash,
-                CvvSalt = cvvSalt,
-                ExpirationDateHash = expirationDateHash,
-                ExpirationDateSalt = expirationDateSalt
-            };
-            _savedCreditCardDal.Add(card);
-            return new SuccessDataResult<SavedCreditCard>(card, Messages.CardSaved);
+            _savedCreditCardDal.Add(addCreditCardDto);
+            return new SuccessDataResult<SavedCreditCard>(addCreditCardDto, "Eklendi");
         }
 
-        public IDataResult<SavedCreditCard> CheckTheCreditCard(PaymentDto paymentDto)
+        public IDataResult<SavedCreditCard> CheckTheCreditCard(SavedCreditCard savedCreditCard)
         {
-            var getCardToCheck = _savedCreditCardDal.GetByUser(paymentDto.UserId);
+            var getCardToCheck = _savedCreditCardDal.GetByUser(savedCreditCard.UserId);
 
             if (getCardToCheck == null)
             {
                 return new ErrorDataResult<SavedCreditCard>(getCardToCheck, Messages.NoCardForUser);
             }
-            else 
+            
+            //    var cardNumberStatus = HashingHelper.VerifyCardNumberHash(paymentDto.CardNumber, getCardToCheck.CardNumberHash, getCardToCheck.CardNumberSalt);
+            //    var expirationDateStatus = HashingHelper.VerifyExpirationDateHash(paymentDto.ExpirationDate, getCardToCheck.ExpirationDateHash, getCardToCheck.ExpirationDateSalt);
+            //    var cvvStatus = HashingHelper.VerifyCvvHash(paymentDto.Cvv, getCardToCheck.CvvHash, getCardToCheck.CvvSalt);
+
+            //    if (!cardNumberStatus || !expirationDateStatus || !cvvStatus)
+            //    {
+            //        return new ErrorDataResult<SavedCreditCard>(getCardToCheck, Messages.NoCardInSystem);
+            //    }
+
+            else
             {
-                var cardNumberStatus = HashingHelper.VerifyCardNumberHash(paymentDto.CardNumber, getCardToCheck.CardNumberHash, getCardToCheck.CardNumberSalt);
-                var expirationDateStatus = HashingHelper.VerifyExpirationDateHash(paymentDto.ExpirationDate, getCardToCheck.ExpirationDateHash, getCardToCheck.ExpirationDateSalt);
-                var cvvStatus = HashingHelper.VerifyCvvHash(paymentDto.Cvv, getCardToCheck.CvvHash, getCardToCheck.CvvSalt);
+                var cardNumberStatus = getCardToCheck.CardNumberHash.SequenceEqual(savedCreditCard.CardNumberHash);
+                var expirationDateStatus = getCardToCheck.ExpirationDateHash.SequenceEqual(savedCreditCard.ExpirationDateHash);
+                var cvvStatus = getCardToCheck.CvvHash.SequenceEqual(savedCreditCard.CvvHash);
 
                 if (!cardNumberStatus || !expirationDateStatus || !cvvStatus)
                 {

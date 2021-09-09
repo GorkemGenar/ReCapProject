@@ -65,6 +65,17 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpPost("checkthesavedcard")]
+        public IActionResult CheckTheSavedCreditCard(CreditCardHashedDto paymentHasedDto)
+        {
+            var result = _creditCardService.CheckTheSavedCreditCard(paymentHasedDto);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
         [HttpPost("add")]
         public IActionResult Add(AddCreditCardDto addCreditCardDto)
         {

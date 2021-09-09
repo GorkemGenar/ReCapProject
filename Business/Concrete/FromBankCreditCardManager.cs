@@ -68,6 +68,11 @@ namespace Business.Concrete
         {
             var getCardToCheck = _creditCardDal.GetByUser(paymentDto.UserId);
 
+            if (getCardToCheck is null)
+            {
+                return new ErrorDataResult<FromBankCreditCard>("Sistemde kayıtlı böyle bir kart yok.");
+            }
+
             var cardNumberStatus = HashingHelper.VerifyCardNumberHash(paymentDto.CardNumber, getCardToCheck.CardNumberHash, getCardToCheck.CardNumberSalt);
             var expirationDateStatus = HashingHelper.VerifyExpirationDateHash(paymentDto.ExpirationDate, getCardToCheck.ExpirationDateHash, getCardToCheck.ExpirationDateSalt);
             var cvvStatus = HashingHelper.VerifyCvvHash(paymentDto.Cvv, getCardToCheck.CvvHash, getCardToCheck.CvvSalt);
@@ -75,6 +80,27 @@ namespace Business.Concrete
             if (!cardNumberStatus || !expirationDateStatus || !cvvStatus)
             {
                 return new ErrorDataResult<FromBankCreditCard>("Kart bilgileri hatalı.");
+            }
+
+            return new SuccessDataResult<FromBankCreditCard>(getCardToCheck, "Ödeme işlemi başarılı.");
+        }
+
+        public IDataResult<FromBankCreditCard> CheckTheSavedCreditCard(CreditCardHashedDto paymentHashedDto)
+        {
+            var getCardToCheck = _creditCardDal.GetByUser(paymentHashedDto.UserId);
+            
+            if(getCardToCheck is null)
+            {
+                return new ErrorDataResult<FromBankCreditCard>("Kayıtlı olan kart bilgileri hatalı. Lütfen kart bilgilerinizi güncelleyin.");
+            }
+
+            var cardNumberStatus = HashingHelper.VerifySavedCardNumberHash(paymentHashedDto.CardNumberHash, getCardToCheck.CardNumberHash);
+            var expirationDateStatus = HashingHelper.VerifySavedCardExpirationDateHash(paymentHashedDto.ExpirationDateHash, getCardToCheck.ExpirationDateHash);
+            var cvvStatus = HashingHelper.VerifySavedCardCvvHash(paymentHashedDto.CvvHash, getCardToCheck.CvvHash);
+
+            if (!cardNumberStatus || !expirationDateStatus || !cvvStatus)
+            {
+                return new ErrorDataResult<FromBankCreditCard>("Kayıtlı olan kart bilgileri hatalı. Lütfen kart bilgilerinizi güncelleyin.");
             }
 
             return new SuccessDataResult<FromBankCreditCard>(getCardToCheck, "Ödeme işlemi başarılı.");

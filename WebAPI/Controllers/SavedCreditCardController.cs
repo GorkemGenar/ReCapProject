@@ -55,9 +55,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(AddCreditCardDto addCreditCardDto)
+        public IActionResult Add(SavedCreditCard savedCreditCard)
         {
-            var result = _savedcreditCardService.Add(addCreditCardDto, addCreditCardDto.CardNumber, addCreditCardDto.ExpirationDate, addCreditCardDto.Cvv);
+            var result = _savedcreditCardService.Add(savedCreditCard);
             if (result.Success)
             {
                 return Ok(result);
@@ -88,9 +88,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("checkthecard")]
-        public IActionResult CheckTheCreditCard(PaymentDto paymentDto)
+        public IActionResult CheckTheCreditCard(SavedCreditCard savedCreditCard)
         {
-            var result = _savedcreditCardService.CheckTheCreditCard(paymentDto);
+            var result = _savedcreditCardService.CheckTheCreditCard(savedCreditCard);
             if (result.Success)
             {
                 return Ok(result);

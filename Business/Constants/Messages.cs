@@ -57,6 +57,7 @@ namespace Business.Constants
         public static string FindexRateUpdated = "Findex puanı güncellendi.";
 
         public static string CardSaved = "Kredi kartı kaydedildi.";
+        public static string CardSavedError = "Kaydedilme sırasında hata oluştu.";
         public static string CardAlreadySaved = "Kart sistemde kayıtlı.";
         public static string CardsListed = "Kartlar listelendi";
         public static string CardsUpdated = "Kart bilgileri güncellendi.";

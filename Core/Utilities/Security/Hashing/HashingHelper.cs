@@ -105,5 +105,41 @@ namespace Core.Utilities.Security.Hashing
             }
             return true;
         }
+
+        public static bool VerifySavedCardNumberHash(byte[] savedcardNumberHash, byte[] cardNumberHash)
+        {
+            for (int i = 0; i < savedcardNumberHash.Length; i++)
+            {
+                if (savedcardNumberHash[i] != cardNumberHash[i])
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public static bool VerifySavedCardExpirationDateHash(byte[] savedCardExpirationDateHash, byte[] expirationDateHash)
+        {
+            for (int i = 0; i < savedCardExpirationDateHash.Length; i++)
+            {
+                if (savedCardExpirationDateHash[i] != expirationDateHash[i])
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public static bool VerifySavedCardCvvHash(byte[] savedCardCvvHash, byte[] cvvHash)
+        {
+            for (int i = 0; i < savedCardCvvHash.Length; i++)
+            {
+                if (savedCardCvvHash[i] != cvvHash[i])
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }

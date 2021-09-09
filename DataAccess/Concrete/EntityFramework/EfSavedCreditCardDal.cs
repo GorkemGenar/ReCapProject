@@ -21,11 +21,8 @@ namespace DataAccess.Concrete.EntityFramework
                                  Id = scc.Id,
                                  UserId = scc.UserId,
                                  CardNumberHash = scc.CardNumberHash,
-                                 CardNumberSalt = scc.CardNumberSalt,
                                  ExpirationDateHash = scc.ExpirationDateHash,
-                                 ExpirationDateSalt = scc.ExpirationDateSalt,
-                                 CvvHash = scc.CvvHash,
-                                 CvvSalt = scc.CvvSalt
+                                 CvvHash = scc.CvvHash
                              };
                 return result.FirstOrDefault();
             }

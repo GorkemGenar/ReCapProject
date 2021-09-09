@@ -11,10 +11,10 @@ namespace Business.Abstract
     {
         IDataResult<List<SavedCreditCard>> GetAll();
         IDataResult<SavedCreditCard> GetById(int id);
-        IDataResult<SavedCreditCard> Add(AddCreditCardDto addCreditCardDto, string cardNumber, string expirationDate, string cvv);
+        IDataResult<SavedCreditCard> Add(SavedCreditCard addCreditCardDto);
         IResult Update(SavedCreditCard payment);
         IResult Delete(SavedCreditCard payment);
-        IDataResult<SavedCreditCard> CheckTheCreditCard(PaymentDto paymentDto);
+        IDataResult<SavedCreditCard> CheckTheCreditCard(SavedCreditCard paymentDto);
         IDataResult<SavedCreditCard> GetByUser(int userId);
     }
 }

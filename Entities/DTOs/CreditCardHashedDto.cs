@@ -1,13 +1,13 @@
 ﻿using Core.Entities.Abstract;
+using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Entities.Concrete
+namespace Entities.DTOs
 {
-    public class SavedCreditCard:IEntity
+    public class CreditCardHashedDto: IDto
     {
-        public int Id { get; set; }
         public int UserId { get; set; }
         public byte[] CardNumberHash { get; set; }
         public byte[] ExpirationDateHash { get; set; }

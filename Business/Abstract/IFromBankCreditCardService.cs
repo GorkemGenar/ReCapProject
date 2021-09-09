@@ -15,6 +15,7 @@ namespace Business.Abstract
         IResult Update(FromBankCreditCard creditCard);
         IResult Delete(FromBankCreditCard creditCard);
         IDataResult<FromBankCreditCard> CheckTheCreditCard(PaymentDto paymentDto);
+        IDataResult<FromBankCreditCard> CheckTheSavedCreditCard(CreditCardHashedDto paymentHashedDto);
         IDataResult<FromBankCreditCard> GetByUser(int userId);
     }
 }

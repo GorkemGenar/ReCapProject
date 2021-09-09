@@ -13,13 +13,11 @@ namespace DataAccess.Concrete.EntityFramework
         {
             using (var context = new ReCapProjectContext())
             {
-                var result = from u in context.Users
-                             join c in context.FromBankCreditCards
-                             on u.Id equals c.UserId
-                             where c.Id == userId
+                var result = from c in context.FromBankCreditCards
+                             where c.UserId == userId
                              select new FromBankCreditCard
                              {
-                                 UserId = u.Id,
+                                 UserId = c.UserId,
                                  CardNumberHash = c.CardNumberHash,
                                  CardNumberSalt = c.CardNumberSalt,
                                  ExpirationDateHash = c.ExpirationDateHash,
