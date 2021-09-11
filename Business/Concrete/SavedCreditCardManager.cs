@@ -51,6 +51,7 @@ namespace Business.Concrete
 
             else
             {
+                //Sequence.Equal => dizi elemanlarının içeriklerinin aynı olup olmadığını kontrol ediyor.
                 var cardNumberStatus = getCardToCheck.CardNumberHash.SequenceEqual(savedCreditCard.CardNumberHash);
                 var expirationDateStatus = getCardToCheck.ExpirationDateHash.SequenceEqual(savedCreditCard.ExpirationDateHash);
                 var cvvStatus = getCardToCheck.CvvHash.SequenceEqual(savedCreditCard.CvvHash);
