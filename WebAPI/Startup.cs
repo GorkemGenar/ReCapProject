@@ -7,6 +7,7 @@ using Core.Utilities.Security.Encryption;
 using Core.Utilities.Security.JWT;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
+using Entities.Concrete;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -37,6 +38,8 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+            services.AddTransient<IMailService, MailManager>();
             services.AddControllers();
             //services.AddSingleton<IBrandService, BrandManager>();
             //services.AddSingleton<IBrandDal, EfBrandDal>();
@@ -49,11 +52,15 @@ namespace WebAPI
             //services.AddSingleton<IRentalService, RentalManager>();
             //services.AddSingleton<IRentalDal, EfRentalDal>();
             //services.AddSingleton<IUserService, UserManager>();
-            //services.AddSingleton<IUserDal, EfUserDal>();
-            
+            //services.AddSingleton<IUserDal, EfUserDal>();            
             services.AddControllersWithViews();
+            
+            services.AddCors();/*1*/
 
-            services.AddCors();
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+            });
 
             var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
 
