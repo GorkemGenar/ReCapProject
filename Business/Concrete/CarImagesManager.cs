@@ -22,6 +22,7 @@ namespace Business.Concrete
         {
             _carImageDal = carImageDal;
         }
+
         [ValidationAspect(typeof(CarImagesValidator))]
         public IResult Add(IFormFile formFile, CarImage carImage)
         {

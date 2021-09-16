@@ -6,25 +6,24 @@ namespace Core.Utilities.SendMail
 {
     public class SendMail : ISendMail
     {
-        public bool Send(string MailContent)
+        public bool Send(string GMailHesabi, string GMailHesapSifresi, string GMailUnvan, string AMailHesabi, string MailKonu, string MailIcerik, string Pop3Host, int Pop3Port)
         {
             try
             {
-
-                System.Net.NetworkCredential cred = new System.Net.NetworkCredential("gorkemgenarakkaya@gmail.com", "Sanane12");
+                System.Net.NetworkCredential cred = new System.Net.NetworkCredential(GMailHesabi, GMailHesapSifresi);
                 // mail göndermek için oturum açtık
 
                 System.Net.Mail.MailMessage mail = new System.Net.Mail.MailMessage(); // yeni mail oluşturduk
-                mail.From = new System.Net.Mail.MailAddress("gorkemgenarakkaya@hotmail.com", "ADMIN"); // maili gönderecek hesabı belirttik
-                mail.To.Add("gorkemgenarakkaya@hotmail.com"); // mail gönderilecek adresi belirledik
-                mail.Subject = "<->  Sistem Performansı <->"; // mailin konusu
+                mail.From = new System.Net.Mail.MailAddress(GMailHesabi, GMailUnvan); // maili gönderecek hesabı belirttik
+                mail.To.Add(AMailHesabi); // mail gönderilecek adresi belirledik
+                mail.Subject = MailKonu; // mailin konusu
 
-                mail.Body = MailContent; // mailin içeriği
+                mail.Body = MailIcerik; // mailin içeriği
 
 
                 // göndereceğimiz maili hazırladık.
 
-                System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("smtp.gmail.com", 587); // smtp servere bağlandık
+                System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(Pop3Host, Pop3Port); // smtp servere bağlandık
                 smtp.UseDefaultCredentials = false; // varsayılan girişi kullanmadık
                 smtp.EnableSsl = true; // ssl kullanımına izin verdik
                 smtp.Credentials = cred; // server üzerindeki oturumumuzu yukarıda belirttiğimiz NetworkCredential üzerinden sağladık.
