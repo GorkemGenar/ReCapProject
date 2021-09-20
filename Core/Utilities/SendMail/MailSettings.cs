@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Entities.Concrete
+namespace Core.Utilities.SendMail
 {
-    public class MailSettings:IEntity
+    public class MailSettings : IEntity
     {
         public string Mail { get; set; }
         public string DisplayName { get; set; }

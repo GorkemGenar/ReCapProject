@@ -5,6 +5,7 @@ using Business.Concrete;
 using Castle.DynamicProxy;
 using Core.Utilities.Interceptors;
 using Core.Utilities.Security.JWT;
+using Core.Utilities.SendMail;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Microsoft.AspNetCore.Http;
@@ -56,6 +57,9 @@ namespace Business.DependencyResolvers.Autofac
 
             builder.RegisterType<FindexManager>().As<IFindexService>();
             builder.RegisterType<EfFindexDal>().As<IFindexDal>();
+
+            builder.RegisterType<SendMail>().As<ISendMail>().SingleInstance();
+
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 

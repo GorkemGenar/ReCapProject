@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Core.Utilities.SendMail;
 using Entities.Concrete;
 using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
@@ -14,7 +15,7 @@ namespace WebAPI.Controllers
     [ApiController]
     public class MailController : ControllerBase
     {
-        private readonly IMailService _mailService;
+        private IMailService _mailService;
 
         public MailController(IMailService mailService)
         {
@@ -22,31 +23,25 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("send")]
-        public async Task<IActionResult> Send([FromForm] MailRequest request)
+        public IActionResult Send(MailRequest request)
         {
-            try
+            var result = _mailService.SendMail(request);
+            if (result.Success)
             {
-                await _mailService.SendEmailAsync(request);
-                return Ok();
+                return Ok(result);
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            return BadRequest(result);
         }
 
         [HttpPost("resetthepassword")]
-        public async Task<IActionResult> SendMailForResetPassword(ResetPasswordDto resetPasswordDto)
+        public IActionResult SendMailForResetPassword(ResetPasswordDto resetPasswordDto)
         {
-            try
+            var result = _mailService.SendMailForResetPassword(resetPasswordDto);
+            if (result.Success)
             {
-                await _mailService.SendMailForResetPassword(resetPasswordDto);
-                return Ok();
+                return Ok(result);
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            return BadRequest(result);
         }
     }
 }
