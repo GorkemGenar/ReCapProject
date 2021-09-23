@@ -20,7 +20,7 @@ namespace Core.Utilities.SendMail
 
             try
             {
-                System.Net.NetworkCredential cred = new System.Net.NetworkCredential("gorkemgenarakkaya@gmail.com", "Adgjmp12@");
+                System.Net.NetworkCredential cred = new System.Net.NetworkCredential("", "");
                 // mail göndermek için oturum açtık
 
                 System.Net.Mail.MailMessage mail = new System.Net.Mail.MailMessage(); // yeni mail oluşturduk
