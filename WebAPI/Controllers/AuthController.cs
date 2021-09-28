@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Core.Entities.Concrete;
 using Entities.Concrete;
 using Entities.DTOs;
 using Microsoft.AspNetCore.Mvc;
@@ -41,7 +42,7 @@ namespace WebAPI.Controllers
         [HttpPost("register")]
         public ActionResult Register(UserForRegisterDto userForRegisterDto)
         {
-            var userExists = _authService.UserExists(userForRegisterDto.Email);
+            var userExists = _authService.UserExistsByEmail(userForRegisterDto.Email);
             if (!userExists.Success)
             {
                 return BadRequest(userExists.Message);
@@ -55,6 +56,33 @@ namespace WebAPI.Controllers
             }
 
             return BadRequest(result.Message);
+        }
+
+        [HttpPost("registerbygoogle")]
+        public ActionResult RegisterByGoogle(UserFromSocial userFromSocial)
+        {
+            var userExistsByEmail = _authService.UserExistsByEmail(userFromSocial.Email);
+
+            var userExistsById = _authService.UserExistsById(userFromSocial.Id);
+
+            if (!userExistsByEmail.Success)
+            {
+                return BadRequest(userExistsByEmail.Message);
+            }
+            
+            if (!userExistsById.Success)
+            {
+                return BadRequest(userExistsById.Message);
+            }
+
+            var registerResult = _authService.RegisterByGoogle(userFromSocial);
+            
+            if (registerResult.Success)
+            {
+                return Ok(registerResult);
+            }
+
+            return BadRequest(registerResult.Message);
         }
 
         [HttpPost("update")]

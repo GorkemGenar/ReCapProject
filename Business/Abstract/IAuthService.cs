@@ -9,9 +9,11 @@ namespace Business.Abstract
     public interface IAuthService
     {
         IDataResult<User> Register(UserForRegisterDto userForRegisterDto, string password);
+        IDataResult<UserFromSocial> RegisterByGoogle(UserFromSocial userFromSocial);
         IDataResult<User> Update(UserForUpdateDto userForRegisterDto, string password);
         IDataResult<User> Login(UserForLoginDto userForLoginDto);
-        IResult UserExists(string email);
+        IResult UserExistsByEmail(string email);
+        IResult UserExistsById(string id);
         IDataResult<AccessToken> CreateAccessToken(User user);
     }
 }

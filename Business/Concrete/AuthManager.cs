@@ -12,11 +12,13 @@ namespace Business.Concrete
     public class AuthManager : IAuthService
     {
         private IUserService _userService;
+        private IUserFromSocialService _userFromSocialService; 
         private ITokenHelper _tokenHelper;
 
-        public AuthManager(IUserService userService, ITokenHelper tokenHelper)
+        public AuthManager(IUserService userService, IUserFromSocialService userFromSocialService, ITokenHelper tokenHelper)
         {
             _userService = userService;
+            _userFromSocialService = userFromSocialService;
             _tokenHelper = tokenHelper;
         }
 
@@ -37,6 +39,19 @@ namespace Business.Concrete
             };
             _userService.Add(user);
             return new SuccessDataResult<User>(user, "Kayıt oldu");
+        }
+
+        public IDataResult<UserFromSocial> RegisterByGoogle(UserFromSocial userFromSocial)
+        {
+            var user = new UserFromSocial
+            {
+                Id = userFromSocial.Id,
+                Email = userFromSocial.Email,
+                FirstName = userFromSocial.FirstName,
+                LastName = userFromSocial.LastName
+            };
+            _userFromSocialService.Add(user);
+            return new SuccessDataResult<UserFromSocial>(user, "Google hesabınız ile üyelik işleminiz gerçekleşti.");
         }
 
         public IDataResult<User> Update(UserForUpdateDto userForUpdateDto, string password)
@@ -73,20 +88,29 @@ namespace Business.Concrete
             return new SuccessDataResult<User>(userToCheck, "Başarılı giriş");
         }
 
-        public IResult UserExists(string email)
-        {
-            if (_userService.GetByMail(email).Data != null)
-            {
-                return new ErrorResult("Kullanıcı mevcut");
-            }
-            return new SuccessResult();
-        }
-
         public IDataResult<AccessToken> CreateAccessToken(User user)
         {
             var claims = _userService.GetClaims(user);
             var accessToken = _tokenHelper.CreateToken(user, claims.Data);
             return new SuccessDataResult<AccessToken>(accessToken, "Token oluşturuldu");
+        }
+
+        public IResult UserExistsByEmail(string email)
+        {
+            if (_userService.GetByMail(email).Data != null)
+            {
+                return new ErrorResult("Bu mail adresine kayıtlı kullanıcı mevcut");
+            }
+            return new SuccessResult();
+        }
+
+        public IResult UserExistsById(string id)
+        {
+            if (_userFromSocialService.GetById(id).Data != null)
+            {
+                return new ErrorResult("Bu Id'de sistemde kullanıcı mevcut");
+            }
+            return new SuccessResult();
         }
     }
 }
